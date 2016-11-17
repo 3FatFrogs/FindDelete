@@ -23,13 +23,13 @@ namespace FindDelete
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            ResetDataGrids();
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
 
             DialogResult result = fbd.ShowDialog();
 
-            if(result.ToString() == "OK")
+            if (result.ToString() == "OK")
             {
                 var pippo = GetAllFiles(fbd.SelectedPath);
 
@@ -60,6 +60,16 @@ namespace FindDelete
 
             }
 
+        }
+
+        private void ResetDataGrids()
+        {
+            //Initialize components everytime the user selects a new folder
+            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
+
+            dataGridView2.DataSource = null;
+            dataGridView2.Rows.Clear();
         }
 
         private Dictionary<string, string> GetAllFiles(string directoryPath)

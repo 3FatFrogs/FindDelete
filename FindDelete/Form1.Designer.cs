@@ -61,7 +61,7 @@
             this.dataGridView2.Location = new System.Drawing.Point(60, 440);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 40;
-            this.dataGridView2.Size = new System.Drawing.Size(859, 566);
+            this.dataGridView2.Size = new System.Drawing.Size(1523, 566);
             this.dataGridView2.TabIndex = 3;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentDoubleClick);
             this.dataGridView2.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentDoubleClick);
@@ -89,7 +89,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(60, 132);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 40;
-            this.dataGridView1.Size = new System.Drawing.Size(859, 274);
+            this.dataGridView1.Size = new System.Drawing.Size(1523, 274);
             this.dataGridView1.TabIndex = 4;
             // 
             // dataGridViewTextBoxColumn3
@@ -108,9 +108,9 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(976, 132);
+            this.pictureBox1.Location = new System.Drawing.Point(1605, 132);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1751, 874);
+            this.pictureBox1.Size = new System.Drawing.Size(1122, 874);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;

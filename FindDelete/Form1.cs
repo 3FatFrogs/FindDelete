@@ -23,37 +23,43 @@ namespace FindDelete
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
 
             DialogResult result = fbd.ShowDialog();
 
-            var pippo = GetAllFiles(fbd.SelectedPath);
-
-            var test = pippo.GroupBy(x => x.Value).Where(x => x.Count() > 1);
-
-            foreach (var item in pippo)
+            if(result.ToString() == "OK")
             {
-                dataGridView1.Rows.Add(item.Value, item.Key);
-            }
+                var pippo = GetAllFiles(fbd.SelectedPath);
 
-            int rowIndex = 0;
-            int count = 2;
-            foreach (var item in test)
-            {
-                foreach (var duplicates in item)
+                var test = pippo.GroupBy(x => x.Value).Where(x => x.Count() > 1);
+
+                foreach (var item in pippo)
                 {
-                    dataGridView2.Rows.Add(duplicates.Key, duplicates.Value);
-
-                    if ((count % 2) == 0)
-                        dataGridView2.Rows[rowIndex].Cells[1].Style.BackColor = Color.Red;
-                    else
-                        dataGridView2.Rows[rowIndex].Cells[1].Style.BackColor = Color.Orange;
-
-                    rowIndex++;
+                    dataGridView1.Rows.Add(item.Value, item.Key);
                 }
-                count++;
+
+                int rowIndex = 0;
+                int count = 2;
+                foreach (var item in test)
+                {
+                    foreach (var duplicates in item)
+                    {
+                        dataGridView2.Rows.Add(duplicates.Key, duplicates.Value);
+
+                        if ((count % 2) == 0)
+                            dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Red;
+                        else
+                            dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Orange;
+
+                        rowIndex++;
+                    }
+                    count++;
+                }
+
             }
+
         }
 
         private Dictionary<string, string> GetAllFiles(string directoryPath)

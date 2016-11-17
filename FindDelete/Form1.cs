@@ -102,8 +102,8 @@ namespace FindDelete
 
         private void DeleteFile_Click(object sender, EventArgs e)
         {
-            // Not developed yet.
-            throw new NotImplementedException();
+            // .
+            MessageBox.Show("Not developed yet");
 
             /*
             int selectedFiles = dataGridView2.SelectedCells.Count;

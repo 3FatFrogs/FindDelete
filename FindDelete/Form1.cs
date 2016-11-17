@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -11,7 +10,6 @@ using System.Windows.Forms;
 
 namespace FindDelete
 {
-
     public partial class Form1 : Form
     {
         public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
@@ -31,11 +29,11 @@ namespace FindDelete
 
             if (result.ToString() == "OK")
             {
-                var pippo = GetAllFiles(fbd.SelectedPath);
+                var allFiles = GetAllFiles(fbd.SelectedPath);
 
-                var test = pippo.GroupBy(x => x.Value).Where(x => x.Count() > 1);
+                var test = allFiles.GroupBy(x => x.Value).Where(x => x.Count() > 1);
 
-                foreach (var item in pippo)
+                foreach (var item in allFiles)
                 {
                     dataGridView1.Rows.Add(item.Value, item.Key);
                 }
@@ -57,9 +55,7 @@ namespace FindDelete
                     }
                     count++;
                 }
-
             }
-
         }
 
         private void ResetDataGrids()
@@ -95,9 +91,9 @@ namespace FindDelete
 
         private void dataGridView2_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            var pippo = dataGridView2.SelectedCells;
+            var selectedCelss = dataGridView2.SelectedCells;
 
-            if (pippo.Count == 1)
+            if (selectedCelss.Count == 1)
             {
                 int rowIndex = e.RowIndex;
 
@@ -112,8 +108,6 @@ namespace FindDelete
                 else
                     Process.Start(filePath);
             }
-
-
         }
 
         private void DeleteFile_Click(object sender, EventArgs e)

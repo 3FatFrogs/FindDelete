@@ -110,7 +110,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(976, 132);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1105, 874);
+            this.pictureBox1.Size = new System.Drawing.Size(1751, 874);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
@@ -119,7 +119,7 @@
             // 
             this.DeleteFile.Location = new System.Drawing.Point(482, 38);
             this.DeleteFile.Name = "DeleteFile";
-            this.DeleteFile.Size = new System.Drawing.Size(1599, 61);
+            this.DeleteFile.Size = new System.Drawing.Size(2245, 61);
             this.DeleteFile.TabIndex = 6;
             this.DeleteFile.Text = "Delete File";
             this.DeleteFile.UseVisualStyleBackColor = true;
@@ -130,7 +130,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(2142, 1045);
+            this.ClientSize = new System.Drawing.Size(2756, 1045);
             this.Controls.Add(this.DeleteFile);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.dataGridView2);

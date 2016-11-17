@@ -7,8 +7,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FindDelete
@@ -16,10 +14,7 @@ namespace FindDelete
 
     public partial class Form1 : Form
     {
-
         public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
-
-        private string dir = "C:\\ES\\test";
 
         public Form1()
         {
@@ -28,22 +23,12 @@ namespace FindDelete
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*
+
             FolderBrowserDialog fbd = new FolderBrowserDialog();
 
             DialogResult result = fbd.ShowDialog();
 
-            if (!string.IsNullOrWhiteSpace(fbd.SelectedPath))
-            {
-                string[] files = Directory.GetFiles(fbd.SelectedPath);
-
-                System.Windows.Forms.MessageBox.Show("Files found: " + files.Length.ToString(), "Message");
-
-            }
-            */
-
-
-            var pippo = GetAllFiles();
+            var pippo = GetAllFiles(fbd.SelectedPath);
 
             var test = pippo.GroupBy(x => x.Value).Where(x => x.Count() > 1);
 
@@ -71,13 +56,13 @@ namespace FindDelete
             }
         }
 
-        private Dictionary<string, string> GetAllFiles()
+        private Dictionary<string, string> GetAllFiles(string directoryPath)
         {
             Dictionary<string, string> fileHash = new Dictionary<string, string>();
 
             using (var md5 = MD5.Create())
             {
-                var allFiles = Directory.GetFiles(dir, "*", SearchOption.AllDirectories);
+                var allFiles = Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories);
 
                 foreach (var filename in allFiles)
                 {
@@ -117,6 +102,10 @@ namespace FindDelete
 
         private void DeleteFile_Click(object sender, EventArgs e)
         {
+            // Not developed yet.
+            throw new NotImplementedException();
+
+            /*
             int selectedFiles = dataGridView2.SelectedCells.Count;
 
             var pippo = dataGridView2.SelectedCells;
@@ -128,6 +117,7 @@ namespace FindDelete
             }
 
             MessageBox.Show("File selected = " + files);
+            */
         }
     }
 }

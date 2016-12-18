@@ -99,6 +99,8 @@ namespace FindDelete
 
                 string filePath = dataGridView2.Rows[rowIndex].Cells[0].Value.ToString();
 
+                //todo check if filepath exist or not
+
                 if (ImageExtensions.Contains(Path.GetExtension(filePath).ToUpperInvariant()))
                 {             
                     FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
@@ -112,10 +114,6 @@ namespace FindDelete
 
         private void DeleteFile_Click(object sender, EventArgs e)
         {
-            // .
-            MessageBox.Show("Not developed yet");
-
-            /*
             int selectedFiles = dataGridView2.SelectedCells.Count;
 
             var pippo = dataGridView2.SelectedCells;
@@ -126,8 +124,17 @@ namespace FindDelete
                 Console.WriteLine("");
             }
 
-            MessageBox.Show("File selected = " + files);
-            */
+            DialogResult delete = MessageBox.Show("File to be deleted = " + files, "Delete file(s)?" ,MessageBoxButtons.YesNo);
+            if (delete == DialogResult.Yes)
+            {
+                foreach (DataGridViewCell item in pippo)
+                {
+                    File.Delete(item.Value.ToString());
+                }
+            }
+
+            ResetDataGrids();
         }
+
     }
 }

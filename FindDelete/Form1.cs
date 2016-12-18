@@ -112,10 +112,6 @@ namespace FindDelete
 
         private void DeleteFile_Click(object sender, EventArgs e)
         {
-
-            MessageBox.Show("Not developed yet");
-
-
             int selectedFiles = dataGridView2.SelectedCells.Count;
 
             var pippo = dataGridView2.SelectedCells;

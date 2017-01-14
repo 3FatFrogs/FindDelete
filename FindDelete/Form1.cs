@@ -29,32 +29,38 @@ namespace FindDelete
 
             if (result.ToString() == "OK")
             {
-                var allFiles = GetAllFiles(fbd.SelectedPath);
+                AddResultsToForm(fbd);
+            }
+        }
 
-                var test = allFiles.GroupBy(x => x.Value).Where(x => x.Count() > 1);
+        private void AddResultsToForm(FolderBrowserDialog fbd)
+        {
+            //todo this should be improved
+            var allFiles = GetAllFiles(fbd.SelectedPath);
 
-                foreach (var item in allFiles)
+            var test = allFiles.GroupBy(x => x.Value).Where(x => x.Count() > 1);
+
+            foreach (var item in allFiles)
+            {
+                dataGridView1.Rows.Add(item.Value, item.Key);
+            }
+
+            int rowIndex = 0;
+            int count = 2;
+            foreach (var item in test)
+            {
+                foreach (var duplicates in item)
                 {
-                    dataGridView1.Rows.Add(item.Value, item.Key);
+                    dataGridView2.Rows.Add(duplicates.Key, duplicates.Value);
+
+                    if ((count % 2) == 0)
+                        dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Red;
+                    else
+                        dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Orange;
+
+                    rowIndex++;
                 }
-
-                int rowIndex = 0;
-                int count = 2;
-                foreach (var item in test)
-                {
-                    foreach (var duplicates in item)
-                    {
-                        dataGridView2.Rows.Add(duplicates.Key, duplicates.Value);
-
-                        if ((count % 2) == 0)
-                            dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Red;
-                        else
-                            dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Orange;
-
-                        rowIndex++;
-                    }
-                    count++;
-                }
+                count++;
             }
         }
 
@@ -133,6 +139,7 @@ namespace FindDelete
                 }
             }
 
+            //todo - this is wrong here we should re-display after the reset
             ResetDataGrids();
         }
 

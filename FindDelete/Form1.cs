@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -13,6 +14,7 @@ namespace FindDelete
     public partial class Form1 : Form
     {
         public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+        private Dictionary<string, string> allFiles;
 
         public Form1()
         {
@@ -24,46 +26,51 @@ namespace FindDelete
             ResetDataGrids();
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.SelectedPath = @"C:\test\1\2013\";
 
-            DialogResult result = fbd.ShowDialog();
-
-            if (result.ToString() == "OK")
+            if (fbd.ShowDialog()== DialogResult.OK)
             {
-                var allFiles = GetAllFiles(fbd.SelectedPath);
+                AddResultsToForm(fbd);
+            }
+        }
 
-                var test = allFiles.GroupBy(x => x.Value).Where(x => x.Count() > 1);
+        private void AddResultsToForm(FolderBrowserDialog fbd = null)
+        {
 
-                foreach (var item in allFiles)
+            if (fbd != null)
+                allFiles = GetAllFiles(fbd.SelectedPath);
+
+            DisplayDuplicates();
+        }
+
+        private void DisplayDuplicates()
+        {
+            dataGridView2.Rows.Clear();
+
+            int rowIndex = 0;
+            int count = 2;
+
+            var duplicates = allFiles.GroupBy(x => x.Value).Where(x => x.Count() > 1);
+
+            foreach (var item in duplicates)
+            {
+                foreach (var d in item)
                 {
-                    dataGridView1.Rows.Add(item.Value, item.Key);
+                    dataGridView2.Rows.Add(d.Key, d.Value);
+
+                    if ((count % 2) == 0)
+                        dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Red;
+                    else
+                        dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Orange;
+
+                    rowIndex++;
                 }
-
-                int rowIndex = 0;
-                int count = 2;
-                foreach (var item in test)
-                {
-                    foreach (var duplicates in item)
-                    {
-                        dataGridView2.Rows.Add(duplicates.Key, duplicates.Value);
-
-                        if ((count % 2) == 0)
-                            dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Red;
-                        else
-                            dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Orange;
-
-                        rowIndex++;
-                    }
-                    count++;
-                }
+                count++;
             }
         }
 
         private void ResetDataGrids()
         {
-            //Initialize components everytime the user selects a new folder
-            dataGridView1.DataSource = null;
-            dataGridView1.Rows.Clear();
-
             dataGridView2.DataSource = null;
             dataGridView2.Rows.Clear();
         }
@@ -75,7 +82,7 @@ namespace FindDelete
             using (var md5 = MD5.Create())
             {
                 var allFiles = Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories);
-
+                int i = 0;
                 foreach (var filename in allFiles)
                 {
                     using (var stream = File.OpenRead(filename))
@@ -83,6 +90,8 @@ namespace FindDelete
                         var md5Result = md5.ComputeHash(stream);
                         var encoded = Convert.ToBase64String(md5Result);
                         fileHash.Add(filename, encoded);
+
+                        progressBar1.Value = 100 * ++i / allFiles.Count();
                     }
                 }
             }
@@ -99,6 +108,8 @@ namespace FindDelete
 
                 string filePath = dataGridView2.Rows[rowIndex].Cells[0].Value.ToString();
 
+                //todo check if filepath exist or not
+
                 if (ImageExtensions.Contains(Path.GetExtension(filePath).ToUpperInvariant()))
                 {             
                     FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
@@ -112,9 +123,6 @@ namespace FindDelete
 
         private void DeleteFile_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Not developed yet");
-
-            
             int selectedFiles = dataGridView2.SelectedCells.Count;
 
             var pippo = dataGridView2.SelectedCells;
@@ -125,8 +133,21 @@ namespace FindDelete
                 Console.WriteLine("");
             }
 
-            MessageBox.Show("File selected = " + files);
+            DialogResult delete = MessageBox.Show("File to be deleted = " + files, "Delete file(s)?" ,MessageBoxButtons.YesNo);
+            if (delete == DialogResult.Yes)
+            {
+                foreach (DataGridViewCell item in pippo)
+                {
+                    File.Delete(item.Value.ToString());
+                    allFiles.Remove(item.Value.ToString());
+                }
+            }
 
+            pictureBox1.Image = null;
+            pictureBox1.Invalidate();
+
+            DisplayDuplicates();
         }
+
     }
 }

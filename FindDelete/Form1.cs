@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -13,6 +14,7 @@ namespace FindDelete
     public partial class Form1 : Form
     {
         public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+        private Dictionary<string, string> allFiles;
 
         public Form1()
         {
@@ -21,7 +23,6 @@ namespace FindDelete
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             ResetDataGrids();
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -33,25 +34,29 @@ namespace FindDelete
             }
         }
 
-        private void AddResultsToForm(FolderBrowserDialog fbd)
+        private void AddResultsToForm(FolderBrowserDialog fbd = null)
         {
-            //todo this should be improved
-            var allFiles = GetAllFiles(fbd.SelectedPath);
 
-            var test = allFiles.GroupBy(x => x.Value).Where(x => x.Count() > 1);
+            if (fbd != null)
+                allFiles = GetAllFiles(fbd.SelectedPath);
 
-            foreach (var item in allFiles)
-            {
-                dataGridView1.Rows.Add(item.Value, item.Key);
-            }
+            DisplayDuplicates();
+        }
+
+        private void DisplayDuplicates()
+        {
+            dataGridView2.Rows.Clear();
 
             int rowIndex = 0;
             int count = 2;
-            foreach (var item in test)
+
+            var duplicates = allFiles.GroupBy(x => x.Value).Where(x => x.Count() > 1);
+
+            foreach (var item in duplicates)
             {
-                foreach (var duplicates in item)
+                foreach (var d in item)
                 {
-                    dataGridView2.Rows.Add(duplicates.Key, duplicates.Value);
+                    dataGridView2.Rows.Add(d.Key, d.Value);
 
                     if ((count % 2) == 0)
                         dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Red;
@@ -66,10 +71,6 @@ namespace FindDelete
 
         private void ResetDataGrids()
         {
-            //Initialize components everytime the user selects a new folder
-            dataGridView1.DataSource = null;
-            dataGridView1.Rows.Clear();
-
             dataGridView2.DataSource = null;
             dataGridView2.Rows.Clear();
         }
@@ -81,7 +82,7 @@ namespace FindDelete
             using (var md5 = MD5.Create())
             {
                 var allFiles = Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories);
-
+                int i = 0;
                 foreach (var filename in allFiles)
                 {
                     using (var stream = File.OpenRead(filename))
@@ -89,6 +90,8 @@ namespace FindDelete
                         var md5Result = md5.ComputeHash(stream);
                         var encoded = Convert.ToBase64String(md5Result);
                         fileHash.Add(filename, encoded);
+
+                        progressBar1.Value = 100 * ++i / allFiles.Count();
                     }
                 }
             }
@@ -136,11 +139,14 @@ namespace FindDelete
                 foreach (DataGridViewCell item in pippo)
                 {
                     File.Delete(item.Value.ToString());
+                    allFiles.Remove(item.Value.ToString());
                 }
             }
 
-            //todo - this is wrong here we should re-display after the reset
-            ResetDataGrids();
+            pictureBox1.Image = null;
+            pictureBox1.Invalidate();
+
+            DisplayDuplicates();
         }
 
     }

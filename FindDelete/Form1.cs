@@ -106,18 +106,21 @@ namespace FindDelete
             {
                 int rowIndex = e.RowIndex;
 
-                string filePath = dataGridView2.Rows[rowIndex].Cells[0].Value.ToString();
+                var value = dataGridView2.Rows[rowIndex].Cells[0].Value;
 
-                //todo check if filepath exist or not
+                if(value!=null)
+                {
+                    string filePath = value.ToString();
 
-                if (ImageExtensions.Contains(Path.GetExtension(filePath).ToUpperInvariant()))
-                {             
-                    FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-                    pictureBox1.Image = Image.FromStream(stream);
-                    stream.Close();
+                    if (ImageExtensions.Contains(Path.GetExtension(filePath).ToUpperInvariant()))
+                    {
+                        FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                        pictureBox1.Image = Image.FromStream(stream);
+                        stream.Close();
+                    }
+                    else
+                        Process.Start(filePath);
                 }
-                else
-                    Process.Start(filePath);
             }
         }
 
@@ -149,5 +152,34 @@ namespace FindDelete
             DisplayDuplicates();
         }
 
+
+        private void dataGridView2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            DisplayPictureFromFilePath();
+        }
+
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+            DisplayPictureFromFilePath();
+        }
+
+        private void DisplayPictureFromFilePath()
+        {
+            var selectedCelss = dataGridView2.SelectedCells;
+
+            if (selectedCelss.Count == 1 && selectedCelss[0].Value != null)
+            {
+                string filePath = selectedCelss[0].Value.ToString();
+
+                if (ImageExtensions.Contains(Path.GetExtension(filePath).ToUpperInvariant()))
+                {
+                    FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                    pictureBox1.Image = Image.FromStream(stream);
+                    stream.Close();
+                }
+                else
+                    Process.Start(filePath);
+            }
+        }
     }
 }

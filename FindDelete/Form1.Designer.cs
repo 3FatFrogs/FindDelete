@@ -42,7 +42,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(24, 15);
-            this.button1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button1.Margin = new System.Windows.Forms.Padding(1);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(160, 24);
             this.button1.TabIndex = 0;
@@ -57,13 +57,15 @@
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn1});
             this.dataGridView2.Location = new System.Drawing.Point(24, 83);
-            this.dataGridView2.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.dataGridView2.Margin = new System.Windows.Forms.Padding(1);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 40;
             this.dataGridView2.Size = new System.Drawing.Size(478, 319);
             this.dataGridView2.TabIndex = 3;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentDoubleClick);
             this.dataGridView2.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentDoubleClick);
+            this.dataGridView2.SelectionChanged += new System.EventHandler(this.dataGridView2_SelectionChanged);
+            this.dataGridView2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridView2_KeyPress);
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -82,7 +84,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(527, 83);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(1);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(564, 319);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -92,7 +94,7 @@
             // DeleteFile
             // 
             this.DeleteFile.Location = new System.Drawing.Point(193, 15);
-            this.DeleteFile.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.DeleteFile.Margin = new System.Windows.Forms.Padding(1);
             this.DeleteFile.Name = "DeleteFile";
             this.DeleteFile.Size = new System.Drawing.Size(898, 24);
             this.DeleteFile.TabIndex = 6;
@@ -103,7 +105,7 @@
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(24, 50);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(1);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(1067, 19);
             this.progressBar1.TabIndex = 7;
@@ -119,7 +121,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.button1);
-            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();

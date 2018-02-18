@@ -21,13 +21,13 @@ namespace FindDelete
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             ResetDataGrids();
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.SelectedPath = @"C:\test\1\2013\";
 
-            DialogResult result = fbd.ShowDialog();
-
-            if (result.ToString() == "OK")
+            if (fbd.ShowDialog()== DialogResult.OK)
             {
                 AddResultsToForm(fbd);
             }

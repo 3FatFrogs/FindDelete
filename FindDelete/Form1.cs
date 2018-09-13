@@ -45,6 +45,7 @@ namespace FindDelete
 
         private void DisplayDuplicates()
         {
+            //todo check for odd duplicates example 3 duplicates
             dataGridView2.Rows.Clear();
 
             int rowIndex = 0;
@@ -57,7 +58,7 @@ namespace FindDelete
                 foreach (var d in item)
                 {
                     dataGridView2.Rows.Add(d.Key, d.Value);
-
+                    
                     if ((count % 2) == 0)
                         dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Red;
                     else

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -26,9 +25,9 @@ namespace FindDelete
             ResetDataGrids();
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = @"C:\test\1\2013\";
+            fbd.SelectedPath = @"C:\test\";
 
-            if (fbd.ShowDialog()== DialogResult.OK)
+            if (fbd.ShowDialog() == DialogResult.OK)
             {
                 AddResultsToForm(fbd);
             }
@@ -45,7 +44,6 @@ namespace FindDelete
 
         private void DisplayDuplicates()
         {
-            //todo check for odd duplicates example 3 duplicates
             dataGridView2.Rows.Clear();
 
             int rowIndex = 0;
@@ -58,7 +56,7 @@ namespace FindDelete
                 foreach (var d in item)
                 {
                     dataGridView2.Rows.Add(d.Key, d.Value);
-                    
+
                     if ((count % 2) == 0)
                         dataGridView2.Rows[rowIndex].Cells[0].Style.BackColor = Color.Red;
                     else
@@ -83,7 +81,9 @@ namespace FindDelete
             using (var md5 = MD5.Create())
             {
                 var allFiles = Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories);
+
                 int i = 0;
+
                 foreach (var filename in allFiles)
                 {
                     using (var stream = File.OpenRead(filename))
@@ -101,6 +101,7 @@ namespace FindDelete
 
         private void dataGridView2_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+
             var selectedCelss = dataGridView2.SelectedCells;
 
             if (selectedCelss.Count == 1)
@@ -109,7 +110,7 @@ namespace FindDelete
 
                 var value = dataGridView2.Rows[rowIndex].Cells[0].Value;
 
-                if(value!=null)
+                if (value != null)
                 {
                     string filePath = value.ToString();
 
@@ -137,7 +138,7 @@ namespace FindDelete
                 Console.WriteLine("");
             }
 
-            DialogResult delete = MessageBox.Show("File to be deleted = " + files, "Delete file(s)?" ,MessageBoxButtons.YesNo);
+            DialogResult delete = MessageBox.Show("File to be deleted = " + files, "Delete file(s)?", MessageBoxButtons.YesNo);
             if (delete == DialogResult.Yes)
             {
                 foreach (DataGridViewCell item in pippo)
@@ -181,6 +182,27 @@ namespace FindDelete
                 else
                     Process.Start(filePath);
             }
+        }
+
+        private void dataGridView2_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var selectedCelss = dataGridView2.SelectedCells;
+
+                string filePath = selectedCelss[0].Value.ToString();
+
+                if (File.Exists(filePath))
+                {
+
+                    Process.Start("explorer.exe", "/select, " + filePath);
+                }
+            }
+            else
+            {
+                DisplayPictureFromFilePath();
+            }
+
         }
     }
 }

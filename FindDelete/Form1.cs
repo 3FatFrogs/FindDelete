@@ -13,6 +13,7 @@ namespace FindDelete
     public partial class Form1 : Form
     {
         public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+
         private Dictionary<string, string> allFiles;
 
         public Form1()
